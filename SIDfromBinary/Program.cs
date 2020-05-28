@@ -8,12 +8,32 @@ namespace SIDfromBinary
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-
-            byte [] sid = StringToByteArray("0x010600000000000550000000E20F4FE7B15874E48E19026478C2DC9AC307B83E");
-
-            var t = new System.Security.Principal.SecurityIdentifier(sid, 0);
+            byte[] sid;
+            try
+            {
+                //sid = StringToByteArray("0x010600000000000550000000E20F4FE7B15874E48E19026478C2DC9AC307B83E");
+                sid = StringToByteArray(args[0]);
+            }
+            catch(Exception ex) 
+            {
+                Console.WriteLine("введённая hex строка не переводится двоичные данные");
+                Console.WriteLine(ex.Message);
+                return 1;
+            }
+            try
+            {
+                var t = new System.Security.Principal.SecurityIdentifier(sid, 0);
+                Console.WriteLine(t.Value);
+            }
+            catch(Exception ex) 
+            {
+                Console.WriteLine("введённая hex строка не переводится двоичные данные");
+                Console.WriteLine(ex.Message);
+                return 2;
+            }
+            return 0;
         }
 
         public static byte[] StringToByteArray(string hex)
